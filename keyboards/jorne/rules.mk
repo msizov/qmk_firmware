@@ -18,9 +18,4 @@ AUDIO_ENABLE = no          # Audio output
 SPLIT_KEYBOARD = yes       # Split common
 LTO_ENABLE     = yes
 
-POINTING_DEVICE_ENABLE = yes
-SRC += adns.c
-QUANTUM_LIB_SRC += spi_master.c
-
-
 DEFAULT_FOLDER = jorne/rev1

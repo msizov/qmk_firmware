@@ -103,23 +103,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       #endif
       break;
-    case KC_BTN1:
-    case KC_BTN2:
-    case KC_BTN3:
-    track_timer = timer_read32();
-    if (record->event.pressed) {
-      mousekey_on(keycode);
-      mousekey_send();
-    } else {
-      mousekey_off(keycode);
-      mousekey_send();
-    }
-    
-    break;
-    case KC_WH_U:
-    case KC_WH_D:
-    track_timer = timer_read32();
-    break;
   }
   return true;
 }
