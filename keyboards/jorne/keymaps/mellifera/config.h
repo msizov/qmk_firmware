@@ -2,6 +2,10 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 #pragma once
 
+#define SPLIT_WPM_ENABLE
+//#define SPLIT_OLED_ENABLE
+#define OLED_TIMEOUT 600000
+
 #define OLED_DISPLAY_128X32
 
 #ifdef RGBLIGHT_ENABLE
@@ -20,6 +24,8 @@
 #define RGBLIGHT_VAL_STEP 8
 #endif
 
+
+#define NO_ACTION_ONESHOT
 // If you are using an Elite C rev3 on the slave side, uncomment the lines below:
 // #define SPLIT_USB_DETECT
 // #define NO_USB_STARTUP_CHECK

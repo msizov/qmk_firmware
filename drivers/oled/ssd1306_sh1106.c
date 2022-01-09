@@ -168,7 +168,7 @@ bool oled_init(oled_rotation_t rotation) {
 #endif
 
     oled_rotation = oled_init_user(oled_init_kb(rotation));
-    if (!HAS_FLAGS(oled_rotation, OLED_ROTATION_90)) {
+    if (!(HAS_FLAGS(oled_rotation, OLED_ROTATION_90) || HAS_FLAGS(oled_rotation, OLED_ROTATION_90))) {
         oled_rotation_width = OLED_DISPLAY_WIDTH;
     } else {
         oled_rotation_width = OLED_DISPLAY_HEIGHT;
@@ -198,7 +198,7 @@ bool oled_init(oled_rotation_t rotation) {
         return false;
     }
 
-    if (!HAS_FLAGS(oled_rotation, OLED_ROTATION_180)) {
+    if (!HAS_FLAGS(oled_rotation, OLED_ROTATION_180) && !HAS_FLAGS(oled_rotation, OLED_ROTATION_270)) {
         static const uint8_t PROGMEM display_normal[] = {I2C_CMD, SEGMENT_REMAP_INV, COM_SCAN_DEC};
         if (I2C_TRANSMIT_P(display_normal) != I2C_STATUS_SUCCESS) {
             print("oled_init cmd normal rotation failed\n");
@@ -305,7 +305,7 @@ void oled_render(void) {
 
     // Set column & page position
     static uint8_t display_start[] = {I2C_CMD, COLUMN_ADDR, 0, OLED_DISPLAY_WIDTH - 1, PAGE_ADDR, 0, OLED_DISPLAY_HEIGHT / 8 - 1};
-    if (!HAS_FLAGS(oled_rotation, OLED_ROTATION_90)) {
+    if (!HAS_FLAGS(oled_rotation, OLED_ROTATION_90) && !HAS_FLAGS(oled_rotation, OLED_ROTATION_270)) {
         calc_bounds(update_start, &display_start[1]);  // Offset from I2C_CMD byte at the start
     } else {
         calc_bounds_90(update_start, &display_start[1]);  // Offset from I2C_CMD byte at the start
@@ -317,7 +317,7 @@ void oled_render(void) {
         return;
     }
 
-    if (!HAS_FLAGS(oled_rotation, OLED_ROTATION_90)) {
+    if (!HAS_FLAGS(oled_rotation, OLED_ROTATION_90) && !HAS_FLAGS(oled_rotation, OLED_ROTATION_270)) {
         // Send render data chunk as is
         if (I2C_WRITE_REG(I2C_DATA, &oled_buffer[OLED_BLOCK_SIZE * update_start], OLED_BLOCK_SIZE) != I2C_STATUS_SUCCESS) {
             print("oled_render data failed\n");
@@ -720,14 +720,14 @@ bool oled_invert(bool invert) {
 }
 
 uint8_t oled_max_chars(void) {
-    if (!HAS_FLAGS(oled_rotation, OLED_ROTATION_90)) {
+    if (!(HAS_FLAGS(oled_rotation, OLED_ROTATION_90) || HAS_FLAGS(oled_rotation, OLED_ROTATION_270))) {
         return OLED_DISPLAY_WIDTH / OLED_FONT_WIDTH;
     }
     return OLED_DISPLAY_HEIGHT / OLED_FONT_WIDTH;
 }
 
 uint8_t oled_max_lines(void) {
-    if (!HAS_FLAGS(oled_rotation, OLED_ROTATION_90)) {
+    if (!(HAS_FLAGS(oled_rotation, OLED_ROTATION_90) || HAS_FLAGS(oled_rotation, OLED_ROTATION_270))) {  
         return OLED_DISPLAY_HEIGHT / OLED_FONT_HEIGHT;
     }
     return OLED_DISPLAY_WIDTH / OLED_FONT_HEIGHT;

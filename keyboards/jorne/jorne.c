@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 #include "jorne.h"
 
+/*
 #ifdef OLED_ENABLE
 static void render_logo(void) {
     static const char PROGMEM raw_logo[] = {
@@ -68,3 +69,4 @@ bool oled_task_kb(void) {
     return true;
 }
 #endif
+*/
